@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Image, ScrollView, Text, View } from 'react-native'
+import { Alert, Image, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import CustomButton from '@/components/CustomButton'
 import FormField from '@/components/FormField'
 import { images } from '@/constants'
-import { Link } from 'expo-router'
+import { createUser } from '@/lib/appwrite'
+import { Link, router } from 'expo-router'
 
 type form = {
 	username: string
@@ -22,7 +23,25 @@ const SignUp = () => {
 
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-	const submit = () => {}
+	const submit = async () => {
+		if (!form.username || !form.email || !form.password) {
+			Alert.alert('Error', 'Please fill in all the fields')
+		}
+
+		setIsSubmitting(true)
+
+		try {
+			const result = await createUser(form)
+
+			// set it to global state
+
+			router.replace('/home')
+		} catch (error: any) {
+			Alert.alert('Error', error.message)
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
 
 	return (
 		<SafeAreaView className='bg-primary h-full'>
@@ -61,7 +80,7 @@ const SignUp = () => {
 					/>
 
 					<CustomButton
-						title='Sign In'
+						title='Sign Up'
 						handlePress={submit}
 						containerStyles='mt-7'
 						isLoading={isSubmitting}
@@ -75,7 +94,7 @@ const SignUp = () => {
 							href='/sign-in'
 							className='text-lg font-psemibold text-secondary-100'
 						>
-							Sign In
+							Sign Up
 						</Link>
 					</View>
 				</View>

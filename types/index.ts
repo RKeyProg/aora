@@ -1,13 +1,15 @@
+import { Dispatch, SetStateAction } from 'react'
 import { ImageSourcePropType } from 'react-native'
+import { Models } from 'react-native-appwrite'
 
-export interface TabIconType {
+export interface ITabIcon {
 	icon: ImageSourcePropType
 	color: string
 	name: string
 	focused: boolean
 }
 
-export interface CustomButtonType {
+export interface ICustomButton {
 	title?: string
 	handlePress(): void
 	containerStyles?: string
@@ -15,11 +17,19 @@ export interface CustomButtonType {
 	isLoading?: boolean
 }
 
-export interface FormFieldType {
+export interface IFormField {
 	title: string
 	value: string
 	placeholder?: string
 	handleChangeText(e: string): void
 	otherStyles: string
-	keyboardType: string
+	keyboardType?: string
+}
+
+export interface IGlobalContext {
+	isLoggedIn: boolean
+	setIsLoggedIn: Dispatch<SetStateAction<boolean>>
+	user: Models.Document | null
+	setUser: Dispatch<SetStateAction<Models.Document | null>>
+	isLoading: boolean
 }

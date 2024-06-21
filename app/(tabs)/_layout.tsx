@@ -3,9 +3,9 @@ import React from 'react'
 import { Image, Text, View } from 'react-native'
 
 import { icons } from '@/constants/'
-import { TabIconType } from '@/types'
+import { ITabIcon } from '@/types'
 
-const TabIcon = ({ icon, color, name, focused }: TabIconType) => {
+const TabIcon = ({ icon, color, name, focused }: ITabIcon) => {
 	return (
 		<View className='items-center justify-center gap-2'>
 			<Image

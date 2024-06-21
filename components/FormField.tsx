@@ -1,4 +1,4 @@
-import { FormFieldType } from '@/types'
+import { IFormField } from '@/types'
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
@@ -11,7 +11,7 @@ const FormField = ({
 	handleChangeText,
 	otherStyles,
 	...props
-}: FormFieldType) => {
+}: IFormField) => {
 	const [showPassword, setShowPassword] = useState<boolean>(false)
 
 	return (
