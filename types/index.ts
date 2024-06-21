@@ -14,3 +14,12 @@ export interface CustomButtonType {
 	textStyles?: string
 	isLoading?: boolean
 }
+
+export interface FormFieldType {
+	title: string
+	value: string
+	placeholder?: string
+	handleChangeText(e: string): void
+	otherStyles: string
+	keyboardType: string
+}
