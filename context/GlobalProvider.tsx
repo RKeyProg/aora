@@ -10,7 +10,13 @@ import {
 } from 'react'
 import { Models } from 'react-native-appwrite'
 
-const GlobalContext = createContext<IGlobalContext | null>(null)
+const GlobalContext = createContext<IGlobalContext>({
+	isLoggedIn: false,
+	setIsLoggedIn: () => {},
+	user: null,
+	setUser: () => {},
+	isLoading: false,
+})
 export const useGlobalContext = () => useContext(GlobalContext)
 
 interface GlobalProviderProps {

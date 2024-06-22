@@ -8,7 +8,7 @@ import { Redirect, router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 
 export default function Index() {
-	const { isLoading, isLoggedIn }: any = useGlobalContext() //Need to change type
+	const { isLoading, isLoggedIn } = useGlobalContext()
 
 	if (!isLoading && isLoggedIn) return <Redirect href='/home' />
 	return (

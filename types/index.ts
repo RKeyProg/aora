@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
 import { ImageSourcePropType } from 'react-native'
 import { Models } from 'react-native-appwrite'
 
@@ -28,8 +27,8 @@ export interface IFormField {
 
 export interface IGlobalContext {
 	isLoggedIn: boolean
-	setIsLoggedIn: Dispatch<SetStateAction<boolean>>
+	setIsLoggedIn: (c: boolean) => void
 	user: Models.Document | null
-	setUser: Dispatch<SetStateAction<Models.Document | null>>
+	setUser: (c: Models.Document | null) => void
 	isLoading: boolean
 }
