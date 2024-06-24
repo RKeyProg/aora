@@ -4,6 +4,7 @@ import {
 	Client,
 	Databases,
 	ID,
+	Models,
 	Query,
 } from 'react-native-appwrite'
 
@@ -35,7 +36,11 @@ type user = {
 	username?: string
 }
 
-export const createUser = async ({ email, password, username }: user) => {
+export const createUser = async ({
+	email,
+	password,
+	username,
+}: user): Promise<Models.Document> => {
 	try {
 		const newAccount = await account.create(
 			ID.unique(),
@@ -79,7 +84,7 @@ export const signIn = async ({ email, password }: user) => {
 	}
 }
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (): Promise<Models.Document> => {
 	try {
 		const currentAccount = await account.get()
 
@@ -95,5 +100,6 @@ export const getCurrentUser = async () => {
 		return currentUser.documents[0]
 	} catch (error: any) {
 		console.log(error)
+		throw Error(error)
 	}
 }

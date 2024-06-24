@@ -19,10 +19,10 @@ export interface ICustomButton {
 export interface IFormField {
 	title: string
 	value: string
-	placeholder?: string
+	placeholder: string
 	handleChangeText(e: string): void
 	otherStyles: string
-	keyboardType?: string
+	keyboardType: string
 }
 
 export interface IGlobalContext {

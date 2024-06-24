@@ -7,6 +7,7 @@ import FormField from '@/components/FormField'
 import { images } from '@/constants'
 import { createUser } from '@/lib/appwrite'
 import { Link, router } from 'expo-router'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
 type form = {
 	username: string
@@ -15,6 +16,8 @@ type form = {
 }
 
 const SignUp = () => {
+	const { setUser, setIsLoggedIn } = useGlobalContext()
+
 	const [form, setForm] = useState<form>({
 		username: '',
 		email: '',
@@ -32,6 +35,8 @@ const SignUp = () => {
 
 		try {
 			const result = await createUser(form)
+			setUser(result)
+			setIsLoggedIn(true)
 
 			// set it to global state
 
