@@ -32,3 +32,24 @@ export interface IGlobalContext {
 	setUser: (c: Models.Document | null) => void
 	isLoading: boolean
 }
+
+export interface IEmptyState {
+	title: string
+	subtitle: string
+}
+
+type Creator = {
+	username: string
+	avatar: any
+}
+
+type Video = {
+	title: string
+	thumbnail: string
+	video: any
+	creator: Creator
+}
+
+export interface IVideoCard {
+	video: Video | Models.Document
+}
