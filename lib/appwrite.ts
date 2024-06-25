@@ -4,6 +4,7 @@ import {
 	Client,
 	Databases,
 	ID,
+	Models,
 	Query,
 } from 'react-native-appwrite'
 
@@ -16,6 +17,16 @@ export const config = {
 	videoCollectionId: '6675d7510000313421d1',
 	storageId: '6675d8d50025fee97e4c',
 }
+
+const {
+	endpoint,
+	platform,
+	projectId,
+	databaseId,
+	userCollectionId,
+	videoCollectionId,
+	storageId,
+} = config
 
 // Init your React Native SDK
 const client = new Client()
@@ -35,7 +46,11 @@ type user = {
 	username?: string
 }
 
-export const createUser = async ({ email, password, username }: user) => {
+export const createUser = async ({
+	email,
+	password,
+	username,
+}: user): Promise<Models.Document> => {
 	try {
 		const newAccount = await account.create(
 			ID.unique(),
@@ -79,7 +94,7 @@ export const signIn = async ({ email, password }: user) => {
 	}
 }
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (): Promise<Models.Document> => {
 	try {
 		const currentAccount = await account.get()
 
@@ -95,5 +110,16 @@ export const getCurrentUser = async () => {
 		return currentUser.documents[0]
 	} catch (error: any) {
 		console.log(error)
+		throw Error(error)
+	}
+}
+
+export const getAllPosts = async (): Promise<Models.Document[]> => {
+	try {
+		const posts = await databases.listDocuments(databaseId, videoCollectionId)
+
+		return posts.documents
+	} catch (error: any) {
+		throw new Error(error)
 	}
 }

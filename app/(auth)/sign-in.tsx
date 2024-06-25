@@ -5,7 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomButton from '@/components/CustomButton'
 import FormField from '@/components/FormField'
 import { images } from '@/constants'
-import { signIn } from '@/lib/appwrite'
+import { useGlobalContext } from '@/context/GlobalProvider'
+import { getCurrentUser, signIn } from '@/lib/appwrite'
 import { Link, router } from 'expo-router'
 
 type form = {
@@ -14,6 +15,8 @@ type form = {
 }
 
 const SignIn = () => {
+	const { setUser, setIsLoggedIn } = useGlobalContext()
+
 	const [form, setForm] = useState<form>({
 		email: '',
 		password: '',
@@ -22,7 +25,7 @@ const SignIn = () => {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
 	const submit = async () => {
-		if (!form.email || !form.password) {
+		if (form.email === '' || form.password === '') {
 			Alert.alert('Error', 'Please fill in all the fields')
 		}
 
@@ -30,7 +33,11 @@ const SignIn = () => {
 
 		try {
 			await signIn(form)
-			// set it to global state
+			const result = await getCurrentUser()
+			setUser(result)
+			setIsLoggedIn(true)
+
+			Alert.alert('Success', 'User signed in successfully')
 
 			router.replace('/home')
 		} catch (error: any) {
