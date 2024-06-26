@@ -40,16 +40,21 @@ export interface IEmptyState {
 
 type Creator = {
 	username: string
-	avatar: any
+	avatar: string
 }
 
 type Video = {
 	title: string
 	thumbnail: string
-	video: any
+	video: string
 	creator: Creator
 }
 
 export interface IVideoCard {
 	video: Video | Models.Document
+}
+
+export interface ITrending {
+	activeItem: Models.Document | string
+	item: Models.Document
 }
