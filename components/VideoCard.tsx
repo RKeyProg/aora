@@ -1,5 +1,7 @@
 import { icons } from '@/constants'
+import unlockRotation from '@/lib/unlockRotation'
 import { IVideoCard } from '@/types'
+import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av'
 import React, { useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 
@@ -47,7 +49,21 @@ const VideoCard = ({
 			</View>
 
 			{play ? (
-				<Text className='text-white'>Playing</Text>
+				<Video
+					source={{
+						uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+					}}
+					className='w-full h-60 rounded-xl mt-3'
+					resizeMode={ResizeMode.CONTAIN}
+					useNativeControls
+					shouldPlay
+					onFullscreenUpdate={unlockRotation}
+					onPlaybackStatusUpdate={(status: AVPlaybackStatus) => {
+						if ('didJustFinish' in status && status.didJustFinish) {
+							setPlay(false)
+						}
+					}}
+				/>
 			) : (
 				<TouchableOpacity
 					activeOpacity={0.7}
