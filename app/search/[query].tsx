@@ -15,8 +15,6 @@ const Search = () => {
 
 	const { data: posts, refetch } = useAppwrite(() => searchPosts(searchQuery))
 
-	console.log(query, posts)
-
 	useEffect(() => {
 		refetch()
 	}, [query])

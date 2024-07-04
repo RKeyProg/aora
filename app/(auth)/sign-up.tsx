@@ -5,9 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomButton from '@/components/CustomButton'
 import FormField from '@/components/FormField'
 import { images } from '@/constants'
+import { useGlobalContext } from '@/context/GlobalProvider'
 import { createUser } from '@/lib/appwrite'
 import { Link, router } from 'expo-router'
-import { useGlobalContext } from '@/context/GlobalProvider'
 
 type form = {
 	username: string
