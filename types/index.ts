@@ -21,7 +21,7 @@ export interface IFormField {
 	value: string
 	placeholder?: string
 	handleChangeText(e: string): void
-	otherStyles: string
+	otherStyles?: string
 	keyboardType?: string
 }
 
@@ -57,4 +57,12 @@ export interface IVideoCard {
 export interface ITrending {
 	activeItem: Models.Document | string
 	item: Models.Document
+}
+
+export interface ICreateForm {
+	title: string
+	video: any
+	thumbnail: any
+	prompt: string
+	userId?: string
 }
