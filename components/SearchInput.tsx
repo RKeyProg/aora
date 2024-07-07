@@ -4,16 +4,26 @@ import { Alert, Image, TextInput, TouchableOpacity, View } from 'react-native'
 import { icons } from '@/constants'
 import { router, usePathname } from 'expo-router'
 
-const SearchInput = ({ initialQuery }: { initialQuery?: string }) => {
+const SearchInput = ({
+	initialQuery,
+	initialPlaceholder,
+	otherStyles,
+}: {
+	initialQuery?: string
+	initialPlaceholder?: string
+	otherStyles?: string
+}) => {
 	const pathName = usePathname()
 	const [query, setQuery] = useState(initialQuery || '')
 
 	return (
-		<View className='w-full h-16 px-4 bg-black-100 border-2 border-black-200 rounded-2xl focus:border-secondary items-center flex-row space-x-4'>
+		<View
+			className={`w-full h-16 px-4 bg-black-100 border-2 border-black-200 rounded-2xl focus:border-secondary items-center flex-row space-x-4 ${otherStyles}`}
+		>
 			<TextInput
 				className='text-base mt-0.5 text-white flex-1 font-pregular'
 				value={query}
-				placeholder='Search for a video topic'
+				placeholder={initialPlaceholder}
 				placeholderTextColor='#CDCDE0'
 				onChangeText={e => setQuery(e)}
 			/>

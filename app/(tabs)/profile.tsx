@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FlatList, Image, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -14,6 +14,14 @@ import { router } from 'expo-router'
 const Profile = () => {
 	const { user, setUser, setIsLoggedIn } = useGlobalContext()
 	const userQuery = user?.$id || ''
+	const [refreshing, setRefreshing] = useState<boolean>(false)
+
+	const onRefresh = async () => {
+		setRefreshing(true)
+		await refetch()
+
+		setRefreshing(false)
+	}
 
 	const { data: posts, refetch } = useAppwrite(() => getUserPosts(userQuery))
 

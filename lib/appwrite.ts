@@ -120,7 +120,28 @@ export const getCurrentUser = async (): Promise<Models.Document> => {
 
 export const getAllPosts = async (): Promise<Models.Document[]> => {
 	try {
-		const posts = await databases.listDocuments(databaseId, videoCollectionId)
+		const posts = await databases.listDocuments(databaseId, videoCollectionId, [
+			Query.orderDesc('$createdAt'),
+			Query.limit(7),
+		])
+
+		return posts.documents
+	} catch (error: any) {
+		throw new Error(error)
+	}
+}
+
+export const getLikedPosts = async (): Promise<Models.Document[]> => {
+	try {
+		const user = await getCurrentUser()
+
+		console.log(user.$id)
+
+		const posts = await databases.listDocuments(databaseId, videoCollectionId, [
+			Query.orderDesc('$createdAt'),
+			Query.limit(7),
+			Query.contains('liked', [user.$id]),
+		])
 
 		return posts.documents
 	} catch (error: any) {
@@ -160,7 +181,8 @@ export const getUserPosts = async (
 ): Promise<Models.Document[]> => {
 	try {
 		const posts = await databases.listDocuments(databaseId, videoCollectionId, [
-			Query.equal('creator', userId),
+			Query.orderDesc('$createdAt'),
+			Query.limit(7),
 		])
 
 		return posts.documents
@@ -209,8 +231,12 @@ export const getFilePreview = async (fileId: string, type: string) => {
 export const uploadFile = async (file: any, type: string) => {
 	if (!file) return
 
-	const { mimeType, ...rest } = file
-	const asset = { type: mimeType, ...rest }
+	const asset = {
+		name: file.fileName,
+		type: file.mimeType,
+		size: file.fileSize,
+		uri: file.uri,
+	}
 
 	try {
 		const uploadFile = await storage.createFile(storageId, ID.unique(), asset)
@@ -244,6 +270,30 @@ export const createVideo = async (form: ICreateForm) => {
 		)
 
 		return newPost
+	} catch (error: any) {
+		throw new Error(error)
+	}
+}
+
+export const updateVideo = async (video: Models.Document, id: string) => {
+	if (video.liked.includes(id)) throw new Error('Post already liked')
+
+	const liked = [...video.liked, id]
+
+	try {
+		const updatedList = await databases.updateDocument(
+			databaseId,
+			videoCollectionId,
+			video.$id,
+			{
+				title: video.title,
+				thumbnail: video.thumbnailUrl,
+				video: video.videoUrl,
+				prompt: video.prompt,
+				creator: video.userId,
+				liked: liked,
+			}
+		)
 	} catch (error: any) {
 		throw new Error(error)
 	}

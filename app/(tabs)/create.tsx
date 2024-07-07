@@ -5,7 +5,7 @@ import { useGlobalContext } from '@/context/GlobalProvider'
 import { createVideo } from '@/lib/appwrite'
 import { ICreateForm } from '@/types'
 import { ResizeMode, Video } from 'expo-av'
-import * as DocumentPicker from 'expo-document-picker'
+import * as ImagePicker from 'expo-image-picker'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
 import {
@@ -29,13 +29,13 @@ const Create = () => {
 	})
 
 	const openPicker = async (selectType: string) => {
-		console.log(selectType)
-
-		const result = await DocumentPicker.getDocumentAsync({
-			type:
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes:
 				selectType === 'image'
-					? ['image/png', 'image/jpeg']
-					: ['video/mp4', 'video/gif'],
+					? ImagePicker.MediaTypeOptions.Images
+					: ImagePicker.MediaTypeOptions.Videos,
+			aspect: [4, 3],
+			quality: 1,
 		})
 
 		if (!result.canceled) {

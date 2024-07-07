@@ -12,7 +12,7 @@ import { getAllPosts, getLatestPosts } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
 
 const Home = () => {
-	const { user, setUser, setIsLoggedIn } = useGlobalContext()
+	const { user } = useGlobalContext()
 	const { data: posts, refetch } = useAppwrite(getAllPosts)
 	const { data: latestPosts } = useAppwrite(getLatestPosts)
 
@@ -30,7 +30,9 @@ const Home = () => {
 			<FlatList
 				data={posts}
 				keyExtractor={item => item.$id}
-				renderItem={({ item }) => <VideoCard video={item} />}
+				renderItem={({ item }) => (
+					<VideoCard video={item} hasLikedPost={onRefresh} />
+				)}
 				ListHeaderComponent={() => (
 					<View className='my-6 px-4 space-y-6'>
 						<View className='justify-between items-start flex-row mb-6'>
@@ -52,7 +54,7 @@ const Home = () => {
 							</View>
 						</View>
 
-						<SearchInput />
+						<SearchInput initialPlaceholder='Search for a video topic' />
 
 						<View className='w-full flex-1 pt-5 pb-8'>
 							<Text className='text-gray-100 text-lg font-pregular mb-3'>

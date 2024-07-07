@@ -36,22 +36,12 @@ export interface IGlobalContext {
 export interface IEmptyState {
 	title: string
 	subtitle: string
-}
-
-type Creator = {
-	username: string
-	avatar: string
-}
-
-type Video = {
-	title: string
-	thumbnail: string
-	video: string
-	creator: Creator
+	isButton?: boolean
 }
 
 export interface IVideoCard {
-	video: Video | Models.Document
+	video: Models.Document
+	hasLikedPost?: () => void
 }
 
 export interface ITrending {
@@ -65,4 +55,15 @@ export interface ICreateForm {
 	thumbnail: any
 	prompt: string
 	userId?: string
+}
+
+export interface IDropdownMenuOption {
+	title: string
+	icon: ImageSourcePropType
+}
+
+export interface IDropdownMenu {
+	otherStyles: string
+	options: Array<IDropdownMenuOption>
+	handleSelect: () => void
 }
