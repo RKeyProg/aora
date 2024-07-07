@@ -1,11 +1,12 @@
+import { ICreateForm } from '@/types'
 import {
 	Account,
 	Avatars,
 	Client,
 	Databases,
 	ID,
-	Models,
 	Query,
+	Storage,
 } from 'react-native-appwrite'
 
 export const config = {
@@ -39,6 +40,7 @@ client
 const account = new Account(client)
 const avatars = new Avatars(client)
 const databases = new Databases(client)
+const storage = new Storage(client)
 
 type user = {
 	email: string
@@ -110,29 +112,5 @@ export const getCurrentUser = async (): Promise<Models.Document> => {
 		return currentUser.documents[0]
 	} catch (error: any) {
 		console.log(error)
-		throw Error(error)
-	}
-}
-
-export const getAllPosts = async (): Promise<Models.Document[]> => {
-	try {
-		const posts = await databases.listDocuments(databaseId, videoCollectionId)
-
-		return posts.documents
-	} catch (error: any) {
-		throw new Error(error)
-	}
-}
-
-export const getLatestPosts = async (): Promise<Models.Document[]> => {
-	try {
-		const posts = await databases.listDocuments(databaseId, videoCollectionId, [
-			Query.orderDesc('$createdAt'),
-			Query.limit(7),
-		])
-
-		return posts.documents
-	} catch (error: any) {
-		throw new Error(error)
 	}
 }
